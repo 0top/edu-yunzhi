@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc 
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+        
+    <!-- 凭证匹配器 
+    <bean id="credentialsMatcher" class="utils.RetryLimitHashedCredentialsMatcher">
+        <constructor-arg ref="cacheManager" />
+        <property name="hashAlgorithmName" value="md5" />
+        <property name="hashIterations" value="2" />
+        <property name="storedCredentialsHexEncoded" value="true" />
+    </bean>
+     -->
+      
+    <!-- Realm实现 -->
+    <bean id="userRealm" class="com.yunzhi.edu.web.realm.UserRealm">
+        <property name="authorizationCachingEnabled" value="false"/> 
+    </bean>
+    <bean id="teacherRealm" class="com.yunzhi.edu.web.realm.TeacherRealm">
+        <property name="authorizationCachingEnabled" value="false"/> 
+    </bean>
+    
+    <bean id="CustomModularRealmAuthenticator" class="com.yunzhi.edu.web.realm.CustomModularRealmAuthenticator"/>
+    <!-- 安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+         <property name="authenticator" ref="CustomModularRealmAuthenticator"/>
+        <!--  <property name="authorizer" ref=/>  -->
+        <property name="realms">
+            <list>
+                <ref bean="userRealm"/>
+                <ref bean="teacherRealm"/>
+            </list>
+        </property>
+        <property name="sessionManager" ref="sessionManager" />  
+    </bean>
+    
+    <!-- 会话管理器 -->  
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">  
+        <!-- session的失效时长，单位毫秒 -->  
+        <property name="globalSessionTimeout" value="1800000"/>  
+        <!-- 删除失效的session 
+        <property name="deleteInvalidSessions" value="true"/>  
+         
+        
+        <property name="sessionDAO" ref="sessionDAO"/>
+        
+        --> 
+        
+            
+            <!-- <property name="sessionValidationScheduler" ref="shiroSessionValidationScheduler"/> -->    
+            <property name="sessionValidationInterval" value="1800000"/>  <!-- 相隔多久检查一次session的有效性 -->    
+        <!--<property name="sessionIdCookie.domain" value=".xxx.com"/>    
+        <property name="sessionIdCookie.name" value="jsid"/>    
+      <property name="sessionIdCookie.path" value="/"/>    
+ <property name="sessionListeners">    
+    <list>    
+        <bean class="com.concom.security.interfaces.listener.SessionListener"/>    
+    </list>    
+    </bean> 
+    </property> -->    
+    </bean>
+
+    <!-- Shiro的Web过滤器 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager" />
+        <property name="loginUrl" value="/login.jsp" />
+        <property name="unauthorizedUrl" value="/unauthor.jsp" />
+        <property name="filterChainDefinitions">
+            <value>
+            <!--  -->
+                /admin = roles[admin]
+                /admin/** = authc  
+                /** = anon
+            </value>
+        </property>
+    </bean>
+    
+     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">  
+        <property name="securityManager" ref="securityManager"/>
+    </bean> 
+    
+ </beans>

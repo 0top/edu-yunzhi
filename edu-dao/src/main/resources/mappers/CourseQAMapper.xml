@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunzhi.edu.dao.CourseQAMapper" >
+  <resultMap id="BaseResultMap" type="com.yunzhi.edu.entity.CourseQA" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="course_id" property="courseId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="user_avatar" property="userAvatar" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="question" property="question" jdbcType="VARCHAR" />
+    <result column="answer" property="answer" jdbcType="VARCHAR" />
+    <result column="is_process" property="isProcess" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, course_id, user_id, user_avatar, user_name , question, answer, is_process
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from edu_course_qa
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="listCourseQA" resultMap="BaseResultMap" >    
+    select * from edu_course_qa
+    <where>
+        <if test="id != null" >
+       id =  #{id,jdbcType=BIGINT}
+      </if>
+      <if test="courseId != null" >
+       and course_id = #{courseId,jdbcType=VARCHAR}
+      </if>
+      <if test="userId != null" >
+       and user_id = #{userId,jdbcType=VARCHAR}
+      </if>
+      <if test="isProcess != null" >
+       and is_process =  #{isProcess,jdbcType=BIT}
+      </if>
+    </where>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from edu_course_qa
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yunzhi.edu.entity.CourseQA" >
+    insert into edu_course_qa (id, course_id, user_id, user_avatar, user_name, 
+      question, answer, is_process
+      )
+    values (#{id,jdbcType=BIGINT}, #{courseId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR},
+    #{userAvatar,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},  
+      #{question,jdbcType=VARCHAR}, #{answer,jdbcType=VARCHAR}, #{isProcess,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunzhi.edu.entity.CourseQA" >
+    insert into edu_course_qa
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="courseId != null" >
+        course_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userAvatar != null" >
+        user_avatar,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="question != null" >
+        question,
+      </if>
+      <if test="answer != null" >
+        answer,
+      </if>
+      <if test="isProcess != null" >
+        is_process,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="courseId != null" >
+        #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userAvatar != null" >
+        #{userAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="question != null" >
+        #{question,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null" >
+        #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="isProcess != null" >
+        #{isProcess,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunzhi.edu.entity.CourseQA" >
+    update edu_course_qa
+    <set >
+      <if test="courseId != null" >
+        course_id = #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="question != null" >
+        question = #{question,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null" >
+        answer = #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="isProcess != null" >
+        is_process = #{isProcess,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunzhi.edu.entity.CourseQA" >
+    update edu_course_qa
+    set course_id = #{courseId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      question = #{question,jdbcType=VARCHAR},
+      answer = #{answer,jdbcType=VARCHAR},
+      is_process = #{isProcess,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

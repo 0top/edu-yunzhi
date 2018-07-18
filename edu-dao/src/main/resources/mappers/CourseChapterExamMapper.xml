@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunzhi.edu.dao.CourseChapterExamMapper" >
+  <resultMap id="BaseResultMap" type="com.yunzhi.edu.entity.CourseChapterExam" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="course_id" property="courseId" jdbcType="VARCHAR" />
+    <result column="chapter_id" property="chapterId" jdbcType="VARCHAR" />
+    <result column="exam_id" property="examId" jdbcType="VARCHAR" />
+    <result column="exam_title" property="examTitle" jdbcType="VARCHAR" />
+    <result column="examtime" property="examtime" jdbcType="SMALLINT"/>
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="answer" property="answer" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="BIT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.yunzhi.edu.entity.CourseChapterExam" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, course_id, chapter_id, exam_id, exam_title, examtime, description, end_time, answer, type
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from edu_course_chapter_exam
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="listCourseChapterExamList" resultMap="BaseResultMap" >
+    select
+    id, course_id, chapter_id, exam_id, exam_title, examtime, description, end_time, type
+    from edu_course_chapter_exam
+    <where>
+       <if test="courseId !=  null" >
+        course_id = #{courseId,jdbcType=VARCHAR}
+      </if>
+      <if test="chapterId != null" >
+        and chapter_id = #{chapterId,jdbcType=VARCHAR}
+      </if>
+      <if test="examTitle != null" >
+       and exam_title = #{examTitle,jdbcType=VARCHAR}
+      </if>
+      <if test="examtime != null">
+        and examtime = #{examtime,jdbcType=SMALLINT}
+      </if>
+      <if test="type != null" >
+        and type = #{type,jdbcType=BIT}
+      </if>
+    </where>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from edu_course_chapter_exam
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yunzhi.edu.entity.CourseChapterExam" >
+    insert into edu_course_chapter_exam (id, course_id, chapter_id, 
+      exam_id, exam_title, examtime, description, 
+      end_time, answer, type, 
+      content)
+    values (#{id,jdbcType=BIGINT}, #{courseId,jdbcType=VARCHAR}, #{chapterId,jdbcType=VARCHAR}, 
+      #{examId,jdbcType=VARCHAR}, #{examTitle,jdbcType=VARCHAR}, #{examtime,jdbcType=SMALLINT}
+       #{description,jdbcType=VARCHAR}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{answer,jdbcType=VARCHAR}, #{type,jdbcType=BIT}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunzhi.edu.entity.CourseChapterExam" >
+    insert into edu_course_chapter_exam
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="courseId != null" >
+        course_id,
+      </if>
+      <if test="chapterId != null" >
+        chapter_id,
+      </if>
+      <if test="examId != null" >
+        exam_id,
+      </if>
+      <if test="examTitle != null" >
+        exam_title,
+      </if>
+      <if test="examtime != null">
+       examtime,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="answer != null" >
+        answer,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="courseId != null" >
+        #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="chapterId != null" >
+        #{chapterId,jdbcType=VARCHAR},
+      </if>
+      <if test="examId != null" >
+        #{examId,jdbcType=VARCHAR},
+      </if>
+      <if test="examTitle != null" >
+        #{examTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="examtime != null">
+        #{examtime,jdbcType=SMALLINT},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="answer != null" >
+        #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=BIT},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunzhi.edu.entity.CourseChapterExam" >
+    update edu_course_chapter_exam
+    <set >
+      <if test="examTitle != null" >
+        exam_title = #{examTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="examtime != null">
+        exmatime = #{examtime,jdbcType=SMALLINT},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="answer != null" >
+        answer = #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=BIT},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <where>
+        <if test="id != null">
+            id = #{id,jdbcType=BIGINT}
+        </if>
+        <if test="courseId != null" >
+            course_id = #{courseId,jdbcType=VARCHAR},
+        </if>
+        <if test="chapterId != null" >
+            chapter_id = #{chapterId,jdbcType=VARCHAR},
+        </if>
+        <if test="examId != null" >
+            exam_id = #{examId,jdbcType=VARCHAR},
+        </if>
+     </where>
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yunzhi.edu.entity.CourseChapterExam" >
+    update edu_course_chapter_exam
+    set course_id = #{courseId,jdbcType=VARCHAR},
+      chapter_id = #{chapterId,jdbcType=VARCHAR},
+      exam_id = #{examId,jdbcType=VARCHAR},
+      exam_title = #{examTitle,jdbcType=VARCHAR},
+      examtime = #{examtime,jdbcType=SMALLINT},
+      description = #{description,jdbcType=VARCHAR},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      answer = #{answer,jdbcType=VARCHAR},
+      type = #{type,jdbcType=BIT},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunzhi.edu.entity.CourseChapterExam" >
+    update edu_course_chapter_exam
+    set course_id = #{courseId,jdbcType=VARCHAR},
+      chapter_id = #{chapterId,jdbcType=VARCHAR},
+      exam_id = #{examId,jdbcType=VARCHAR},
+      exam_title = #{examTitle,jdbcType=VARCHAR},
+      examtime = #{examtime,jdbcType=SMALLINT},
+      description = #{description,jdbcType=VARCHAR},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      answer = #{answer,jdbcType=VARCHAR},
+      type = #{type,jdbcType=BIT}
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

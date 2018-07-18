@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunzhi.edu.dao.EduNoticeMapper">
+    <resultMap id="BaseResultMap" type="com.yunzhi.edu.entity.EduNotice">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="send_from" property="sendFrom" jdbcType="VARCHAR" />
+        <result column="accept_to" property="acceptTo" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+        <result column="type" property="type" jdbcType="SMALLINT" />
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.yunzhi.edu.entity.EduNotice"
+        extends="BaseResultMap">
+        <result column="content" property="content" jdbcType="LONGVARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, send_from, accept_to, create_time, end_time, type
+    </sql>
+    <sql id="Blob_Column_List">
+        content
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+        parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List" />
+        ,
+        <include refid="Blob_Column_List" />
+        from edu_notice
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectUserNoticeSelective">
+       select * from edu_notice
+       where
+       accept_to = #{acceptTo,jdbcType=VARCHAR}
+       type = "1"
+    </select>
+    <select id="selectSelective">
+        select * from edu_notice
+        <where>
+            <if test="id != null">
+                id = #{id,jdbcType=BIGINT}
+            </if>
+            <if test="sendFrom != null">
+                sendFrom = #{sendFrom,jdbcType=VARCHAR}
+            </if>
+            <if test="acceptTo != null">
+                acceptTo = #{acceptTo,jdbcType=VARCHAR}
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=SMALLINT}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from edu_notice
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <!-- 
+    <insert id="insert" parameterType="com.yunzhi.edu.entity.EduNotice">
+        insert into edu_notice (id, send_from, accept_to,
+        create_time, end_time, type,
+        content)
+        values (#{id,jdbcType=BIGINT}, #{sendFrom,jdbcType=VARCHAR},
+        #{acceptTo,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{type,jdbcType=SMALLINT},
+        #{content,jdbcType=LONGVARCHAR})
+    </insert>
+     -->
+    <insert id="insertSelective" parameterType="com.yunzhi.edu.entity.EduNotice">
+        insert into edu_notice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="sendFrom != null">
+                send_from,
+            </if>
+            <if test="acceptTo != null">
+                accept_to,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="sendFrom != null">
+                #{sendFrom,jdbcType=VARCHAR},
+            </if>
+            <if test="acceptTo != null">
+                #{acceptTo,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=SMALLINT},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.yunzhi.edu.entity.EduNotice">
+        update edu_notice
+        <set>
+            <if test="sendFrom != null">
+                send_from = #{sendFrom,jdbcType=VARCHAR},
+            </if>
+            <if test="acceptTo != null">
+                accept_to = #{acceptTo,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=SMALLINT},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yunzhi.edu.entity.EduNotice">
+        update edu_notice
+        set send_from = #{sendFrom,jdbcType=VARCHAR},
+        accept_to = #{acceptTo,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+        type = #{type,jdbcType=SMALLINT},
+        content = #{content,jdbcType=LONGVARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.yunzhi.edu.entity.EduNotice">
+        update edu_notice
+        set send_from = #{sendFrom,jdbcType=VARCHAR},
+        accept_to = #{acceptTo,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+        type = #{type,jdbcType=SMALLINT}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

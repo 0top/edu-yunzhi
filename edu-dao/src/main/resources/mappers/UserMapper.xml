@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunzhi.edu.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.yunzhi.edu.entity.User" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="phonenum" property="phonenum" jdbcType="CHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="salt" property="salt" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="CHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="org_code" property="orgCode" jdbcType="VARCHAR" />
+    <result column="staff_num" property="staffNum" jdbcType="VARCHAR" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, phonenum, username, password, salt, sex, email, org_code, staff_num, role_name, 
+    description, avatar
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from edu_user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByPhoneNum" resultMap="BaseResultMap" >
+    select 
+    id, user_id, phonenum, username, sex, email, org_code, staff_num, role_name, description, avatar
+    from edu_user
+    where phonenum = #{phonenum,jdbcType=CHAR}
+  </select>
+  <select id="findUserByStaffNum" resultMap="BaseResultMap" >
+    select 
+    id, user_id, phonenum, username, sex, email, org_code, staff_num, role_name, description, avatar
+    from edu_user
+    where staff_num = #{staffNum,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByPhoneNumAuthentication" resultMap="BaseResultMap">
+    select 
+    id, user_id, phonenum, password, salt, org_code, staff_num, role_name
+    from edu_user
+    where phonenum = #{phonenum,jdbcType=CHAR}
+  </select>
+  
+  <select id="selectUserSelective" resultMap="BaseResultMap">
+    select 
+    id, user_id, phonenum, username, sex, email, org_code, staff_num, role_name, 
+    description, avatar
+    from edu_user
+    <where>
+       <if test="id != null">
+            id = #{id,jdbcType=BIGINT}
+       </if>
+       <if test="userId != null" >
+        and  user_id = #{userId,jdbcType=VARCHAR}
+      </if>
+      <if test="phonenum != null" >
+        and  phonenum = #{phonenum,jdbcType=CHAR}
+      </if>
+      <if test="username != null" >
+       and  username = #{username,jdbcType=VARCHAR}
+      </if>
+      <if test="sex != null" >
+       and sex = #{sex,jdbcType=CHAR}
+      </if>
+      <if test="email != null" >
+       and email = #{email,jdbcType=VARCHAR}
+      </if>
+      <if test="orgCode != null" >
+       and org_code = #{orgCode,jdbcType=VARCHAR}
+      </if>
+      <if test="staffNum != null" >
+        and staff_num = #{staffNum,jdbcType=VARCHAR}
+      </if>
+      <if test="roleName != null" >
+        and role_name =  #{roleName,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from edu_user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yunzhi.edu.entity.User" >
+    insert into edu_user (id, user_id, phonenum, username, 
+      password, salt, sex, email, 
+      org_code, staff_num, role_name, 
+      description, avatar)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=CHAR}, #{phonenum,jdbcType=CHAR}, #{username,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{sex,jdbcType=CHAR}, #{email,jdbcType=VARCHAR}, 
+      #{orgCode,jdbcType=VARCHAR}, #{staffNum,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunzhi.edu.entity.User" >
+    insert into edu_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="phonenum != null" >
+        user_id,
+      </if>
+      <if test="phonenum != null" >
+        phonenum,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="salt != null" >
+        salt,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="orgCode != null" >
+        org_code,
+      </if>
+      <if test="staffNum != null" >
+        staff_num,
+      </if>
+      <if test="roleName != null" >
+        role_name,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="avatar != null" >
+        avatar,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="phonenum != null" >
+        #{phonenum,jdbcType=CHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=CHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCode != null" >
+        #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffNum != null" >
+        #{staffNum,jdbcType=VARCHAR},
+      </if>
+      <if test="roleName != null" >
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunzhi.edu.entity.User" >
+    update edu_user
+    <set >
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=CHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCode != null" >
+        org_code = #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffNum != null" >
+        staff_num = #{staffNum,jdbcType=VARCHAR},
+      </if>
+      <if test="roleName != null" >
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunzhi.edu.entity.User" >
+    update edu_user
+    set phonenum = #{phonenum,jdbcType=CHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      salt = #{salt,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=CHAR},
+      email = #{email,jdbcType=VARCHAR},
+      org_code = #{orgCode,jdbcType=VARCHAR},
+      staff_num = #{staffNum,jdbcType=VARCHAR},
+      role_name = #{roleName,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="unActivateUser">
+    update edu_user
+    set org_code = '',
+        staff_num = '',
+        role_name = 'user',
+    where org_code = #{orgCode,jdbcType=VARCHAR}  and
+            staff_num = #{staffNum,jdbcType=VARCHAR}
+  </update>
+  <update id="activateUser" >
+    update edu_user
+    set org_code = #{orgCode,jdbcType=VARCHAR} ,
+        staff_num = #{staffNum,jdbcType=VARCHAR},
+        role_name = 'student'
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

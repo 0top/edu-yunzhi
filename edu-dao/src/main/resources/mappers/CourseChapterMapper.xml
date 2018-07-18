@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunzhi.edu.dao.CourseChapterMapper">
+	<resultMap id="BaseResultMap" type="com.yunzhi.edu.entity.CourseChapter">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="course_id" property="courseId" jdbcType="VARCHAR" />
+		<result column="chapter_id" property="chapterId" jdbcType="VARCHAR" />
+		<result column="chapter_name" property="chapterName" jdbcType="VARCHAR" />
+		<result column="location" property="location" jdbcType="SMALLINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, course_id, chapter_id, chapter_name, location
+	</sql>
+	<sql id="selective_insert_column">
+		insert into edu_course_chapter
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="courseId != null">
+				course_id,
+			</if>
+			<if test="chapterId != null">
+				chapter_id,
+			</if>
+			<if test="chapterName != null">
+				chapter_name,
+			</if>
+			<if test="location != null">
+				location,
+			</if>
+		</trim>
+	</sql>
+
+	<sql id="selective_insert_value_column">
+		<if test="id != null">
+			#{id,jdbcType=BIGINT},
+		</if>
+		<if test="courseId != null">
+			#{courseId,jdbcType=VARCHAR},
+		</if>
+		<if test="chapterId != null">
+			#{chapterId,jdbcType=VARCHAR},
+		</if>
+		<if test="chapterName != null">
+			#{chapterName,jdbcType=VARCHAR},
+		</if>
+		<if test="location != null">
+			#{location,jdbcType=SMALLINT},
+		</if>
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from edu_course_chapter
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<select id="listChapterSelective" resultMap="BaseResultMap" parameterType="com.yunzhi.edu.entity.CourseChapter">
+		select * from edu_course_chapter 
+		where course_id = #{courseId,jdbcType=VARCHAR}
+		<!-- 
+		<where>
+			<if test="courseId != null">
+				course_id = #{courseId,jdbcType=VARCHAR}
+			</if>
+			
+			<if test="chapterId != null">
+				chapter_id = #{chapterId,jdbcType=INTEGER}
+			</if>
+			<if test="chapterName != null">
+				chapter_name = #{chapterName,jdbcType=VARCHAR}
+			</if> 
+		</where>
+		-->
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from edu_course_chapter
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.yunzhi.edu.entity.CourseChapter">
+		insert into edu_course_chapter (id, course_id, chapter_id,
+		chapter_name, location)
+		values (#{id,jdbcType=BIGINT}, #{courseId,jdbcType=VARCHAR},
+		#{chapterId,jdbcType=VARCHAR},
+		#{chapterName,jdbcType=VARCHAR}, #{location,jdbcType=SMALLINT})
+	</insert>
+	<insert id="insertSelective" parameterType="com.yunzhi.edu.entity.CourseChapter">
+		<include refid="selective_insert_column" />
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<include refid="selective_insert_value_column" />
+		</trim>
+	</insert>
+
+	<insert id="insertChapterListSelective" parameterType="com.yunzhi.edu.entity.CourseChapter">
+		insert into 
+		edu_course_chapter(course_id, chapter_id, chapter_name, location)
+		values 
+		<foreach collection="list" item="item" separator=",">
+			(#{item.courseId,jdbcType=VARCHAR},
+			#{item.chapterId,jdbcType=VARCHAR},
+			#{item.chapterName,jdbcType=VARCHAR},
+			#{item.location,jdbcType=SMALLINT})
+		</foreach>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.yunzhi.edu.entity.CourseChapter">
+		update edu_course_chapter
+		<set>
+			<if test="courseId != null">
+				course_id = #{courseId,jdbcType=VARCHAR},
+			</if>
+			<if test="chapterId != null">
+				chapter_id = #{chapterId,jdbcType=VARCHAR},
+			</if>
+			<if test="chapterName != null">
+				chapter_name = #{chapterName,jdbcType=VARCHAR},
+			</if>
+			<if test="location != null">
+				location = #{location,jdbcType=SMALLINT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yunzhi.edu.entity.CourseChapter">
+		update edu_course_chapter
+		set course_id = #{courseId,jdbcType=VARCHAR},
+		chapter_id = #{chapterId,jdbcType=VARCHAR},
+		chapter_name = #{chapterName,jdbcType=VARCHAR},
+		location = #{location,jdbcType=SMALLINT}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>

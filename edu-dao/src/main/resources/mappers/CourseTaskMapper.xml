@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunzhi.edu.dao.CourseTaskMapper" >
+  <resultMap id="BaseResultMap" type="com.yunzhi.edu.entity.CourseTask" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="course_id" property="courseId" jdbcType="VARCHAR" />
+    <result column="task_id" property="taskId" jdbcType="VARCHAR" />
+    <result column="send_from_id" property="sendFromId" jdbcType="VARCHAR" />
+    <result column="send_from_name" property="sendFromName" jdbcType="VARCHAR" />
+    <result column="task_title" property="taskTitle" jdbcType="VARCHAR" />
+    <result column="task_description" property="taskDescription" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="CHAR" />
+    <result column="actor" property="actor" jdbcType="VARCHAR" />
+    <result column="deadline" property="deadline" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, course_id, task_id, send_from_id, send_from_name, task_title, task_description, 
+    type, actor, deadline, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from edu_course_task
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="listCourseTask" resultMap="BaseResultMap">
+    select * from edu_course_task
+    <where>
+        <if test="courseId != null">
+         course_id = #{courseId,jdbcType=VARCHAR}
+        </if>
+        <if test="sendFromId != null" >
+         and send_from_id = #{sendFromId,jdbcType=VARCHAR}
+        </if>
+        <if test="type != null">
+           and type = #{type,jdbcType=CHAR}
+        </if>
+    </where>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from edu_course_task
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yunzhi.edu.entity.CourseTask" >
+    insert into edu_course_task (id, course_id, task_id, 
+      send_from_id, send_from_name, task_title, 
+      task_description, type, actor, 
+      deadline, create_time)
+    values (#{id,jdbcType=BIGINT}, #{courseId,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR}, 
+      #{sendFromId,jdbcType=VARCHAR}, #{sendFromName,jdbcType=VARCHAR}, #{taskTitle,jdbcType=VARCHAR}, 
+      #{taskDescription,jdbcType=VARCHAR}, #{type,jdbcType=CHAR}, #{actor,jdbcType=VARCHAR}, 
+      #{deadline,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunzhi.edu.entity.CourseTask" >
+    insert into edu_course_task
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="courseId != null" >
+        course_id,
+      </if>
+      <if test="taskId != null" >
+        task_id,
+      </if>
+      <if test="sendFromId != null" >
+        send_from_id,
+      </if>
+      <if test="sendFromName != null" >
+        send_from_name,
+      </if>
+      <if test="taskTitle != null" >
+        task_title,
+      </if>
+      <if test="taskDescription != null" >
+        task_description,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="actor != null" >
+        actor,
+      </if>
+      <if test="deadline != null" >
+        deadline,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="courseId != null" >
+        #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null" >
+        #{taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="sendFromId != null" >
+        #{sendFromId,jdbcType=VARCHAR},
+      </if>
+      <if test="sendFromName != null" >
+        #{sendFromName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskTitle != null" >
+        #{taskTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="taskDescription != null" >
+        #{taskDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="actor != null" >
+        #{actor,jdbcType=VARCHAR},
+      </if>
+      <if test="deadline != null" >
+        #{deadline,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunzhi.edu.entity.CourseTask" >
+    update edu_course_task
+    <set >
+      <if test="courseId != null" >
+        course_id = #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null" >
+        task_id = #{taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="sendFromId != null" >
+        send_from_id = #{sendFromId,jdbcType=VARCHAR},
+      </if>
+      <if test="sendFromName != null" >
+        send_from_name = #{sendFromName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskTitle != null" >
+        task_title = #{taskTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="taskDescription != null" >
+        task_description = #{taskDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=CHAR},
+      </if>
+      <if test="actor != null" >
+        actor = #{actor,jdbcType=VARCHAR},
+      </if>
+      <if test="deadline != null" >
+        deadline = #{deadline,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunzhi.edu.entity.CourseTask" >
+    update edu_course_task
+    set course_id = #{courseId,jdbcType=VARCHAR},
+      task_id = #{taskId,jdbcType=VARCHAR},
+      send_from_id = #{sendFromId,jdbcType=VARCHAR},
+      send_from_name = #{sendFromName,jdbcType=VARCHAR},
+      task_title = #{taskTitle,jdbcType=VARCHAR},
+      task_description = #{taskDescription,jdbcType=VARCHAR},
+      type = #{type,jdbcType=CHAR},
+      actor = #{actor,jdbcType=VARCHAR},
+      deadline = #{deadline,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

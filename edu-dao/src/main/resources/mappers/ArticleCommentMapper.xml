@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//www.mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunzhi.edu.dao.ArticleCommentMapper" >
+  <resultMap id="BaseResultMap" type="com.yunzhi.edu.entity.ArticleComment" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="article_id" property="articleId" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="children_id" property="childrenId" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="send_from_name" property="sendFromName" jdbcType="VARCHAR" />
+    <result column="send_from_id" property="sendFromId" jdbcType="VARCHAR" />
+    <result column="accept_to_name" property="acceptToName" jdbcType="VARCHAR" />
+    <result column="accept_to_id" property="acceptToId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, article_id, parent_id, children_id, content, create_time, 
+    send_from_name, send_from_id, accept_to_name, accept_to_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from edu_article_comment
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from edu_article_comment
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByArticleId" >
+    delete from edu_article_comment
+    where article_id = #{articleId,jdbcType=VARCHAR}
+  </delete>
+  
+  <select id="listCommentByArticleId" resultMap="BaseResultMap">
+    select * from edu_article_comment
+    where article_id = #{articleId,jdbcType=VARCHAR}
+    order by create_time
+  </select>
+  
+  <insert id="insert" parameterType="com.yunzhi.edu.entity.ArticleComment" >
+    insert into edu_article_comment (id, article_id, parent_id, 
+      children_id, content, create_time, send_from_name, send_from_id, accpet_to_name, 
+      accept_to_id)
+    values (#{id,jdbcType=BIGINT}, #{articleId,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
+      #{childrenId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR},#{createTime, jdbcType=TIMESTAMP}, 
+      #{sendFromName,jdbcType=VARCHAR}, #{sendFromId,jdbcType=VARCHAR}, 
+      #{acceptToName,jdbcType=VARCHAR},#{sendToId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunzhi.edu.entity.ArticleComment" >
+    insert into edu_article_comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="articleId != null" >
+        article_id,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="childrenId != null" >
+        children_id,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="sendFromName != null" >
+        send_from_name,
+      </if>
+      <if test="sendFromId != null" >
+        send_from_id,
+      </if>
+      <if test="acceptToName != null" >
+        accept_to_name,
+      </if>
+      <if test="acceptToId != null" >
+        accept_to_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="articleId != null" >
+        #{articleId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="childrenId != null" >
+        #{childrenId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime, jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendFromName != null" >
+        #{sendFromName,jdbcType=VARCHAR},
+      </if>
+      <if test="sendFromId != null" >
+        #{sendFromId,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptToName != null" >
+        #{acceptToName,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptToId != null" >
+        #{acceptToId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunzhi.edu.entity.ArticleComment" >
+    update edu_article_comment
+    <set >
+      <if test="articleId != null" >
+        article_id = #{articleId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="childrenId != null" >
+        children_id = #{childrenId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="sendFromName != null" >
+        send_from_name = #{sendFromName,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptToName != null" >
+        accept_to_name = #{acceptToName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunzhi.edu.entity.ArticleComment" >
+    update edu_article_comment
+    set article_id = #{articleId,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      children_id = #{childrenId,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      send_from_name = #{sendFromName,jdbcType=VARCHAR},
+      accept_to_name = #{acceptToName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

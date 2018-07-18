@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunzhi.edu.dao.SchoolClassMapper" >
+  <resultMap id="BaseResultMap" type="com.yunzhi.edu.entity.SchoolClass" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <id column="org_code" property="orgCode" jdbcType="VARCHAR" />
+    <result column="class_id" property="classId" jdbcType="VARCHAR" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+    <result column="department_id" property="departmentId" jdbcType="VARCHAR" />
+    <result column="teacher_id" property="teacherId" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, org_code, class_id, class_name, department_id, teacher_id，description
+  </sql>
+  <sql id="selective_insert_column">
+    insert into school_class
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orgCode != null" >
+        org_code,
+      </if>
+      <if test="classId != null" >
+        class_id,
+      </if>
+      <if test="className != null" >
+        class_name,
+      </if>
+      <if test="departmentId != null" >
+        department_id,
+      </if>
+      <if test="teacherId != null" >
+        teacher_id,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+    </trim>
+  </sql>
+  <sql id="selective_insert_value_column">
+    <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orgCode != null" >
+        #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null" >
+        #{classId,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null" >
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentId != null" >
+        #{departmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherId != null" >
+        #{teacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description, jdbcType=VARCHAR},
+      </if>
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.yunzhi.edu.entity.SchoolClassKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from school_class
+    where id = #{id,jdbcType=BIGINT}
+      and org_code = #{orgCode,jdbcType=VARCHAR}
+  </select>
+  <select id="listSchoolClassSelective"  resultMap="BaseResultMap">
+    select * from school_class
+    <where>
+      <if test="orgCode != null" >
+        org_code = #{orgCode,jdbcType=VARCHAR}
+      </if>
+      <if test="classId != null" >
+        and class_id = #{classId,jdbcType=VARCHAR}
+      </if>
+      <if test="className != null" >
+        and class_name = #{className,jdbcType=VARCHAR}
+      </if>
+      <if test="departmentId != null" >
+        and department_id = #{departmentId,jdbcType=VARCHAR}
+      </if>
+      <if test="teacherId != null" >
+        and teacher_id = #{teacherId,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="com.yunzhi.edu.entity.SchoolClassKey" >
+    delete from school_class
+    where id = #{id,jdbcType=BIGINT}
+      and org_code = #{orgCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.yunzhi.edu.entity.SchoolClass" >
+    insert into school_class (id, org_code, class_id, 
+      class_name, department_id, teacher_id,description
+      )
+    values (#{id,jdbcType=BIGINT}, #{orgCode,jdbcType=VARCHAR}, #{classId,jdbcType=VARCHAR}, 
+      #{className,jdbcType=VARCHAR}, #{departmentId,jdbcType=VARCHAR}, #{teacherId,jdbcType=VARCHAR},
+      #{description, jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunzhi.edu.entity.SchoolClass" >
+    <include refid="selective_insert_column"/>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <include refid="selective_insert_value_column"/>
+    </trim>
+  </insert>
+ 
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunzhi.edu.entity.SchoolClass" >
+    update school_class
+    <set >
+      <if test="classId != null" >
+        class_id = #{classId,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null" >
+        class_name = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentId != null" >
+        department_id = #{departmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherId != null" >
+        teacher_id = #{teacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description, jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+      and org_code = #{orgCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunzhi.edu.entity.SchoolClass" >
+    update school_class
+    set 
+      class_id = #{classId,jdbcType=VARCHAR},
+      class_name = #{className,jdbcType=VARCHAR},
+      department_id = #{departmentId,jdbcType=VARCHAR},
+      teacher_id = #{teacherId,jdbcType=VARCHAR}
+      description = #{description, jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+      and org_code = #{orgCode,jdbcType=VARCHAR}
+  </update>
+</mapper>

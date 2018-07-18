@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunzhi.edu.dao.CourseMapper">
+    <resultMap id="BaseResultMap" type="com.yunzhi.edu.entity.Course">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="org_code" property="orgCode" jdbcType="VARCHAR" />
+        <result column="course_id" property="courseId" jdbcType="VARCHAR" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="thumbnail" property="thumbnail" jdbcType="VARCHAR" />
+        <result column="user_count" property="userCount" jdbcType="INTEGER" />
+        <result column="teacher_id" property="teacherId" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+        <result column="score" property="score" jdbcType="TINYINT" />
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+        <result column="tags" property="tags" jdbcType="CHAR" />
+        <result column="is_public" property="isPublic" jdbcType="BIT" />
+        <result column="exam_usual" property="examUsual" jdbcType="SMALLINT" />
+        <result column="exam_final" property="examFinal" jdbcType="SMALLINT" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, org_code, course_id, title, thumbnail, user_count,
+        teacher_id,
+        description, score,
+        start_time, end_time, tags, is_public,
+        exam_usual, exam_final
+    </sql>
+    <sql id="selective_insert_column">
+        insert into edu_course
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orgCode != null">
+                org_code,
+            </if>
+            <if test="courseId != null">
+                course_id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="thumbnail != null">
+                thumbnail,
+            </if>
+            <if test="userCount != null">
+                user_count,
+            </if>
+            <if test="teacherId != null">
+                teacher_id,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="score != null">
+                score,
+            </if>
+            <if test="startTime != null">
+                start_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="tags != null">
+                tags,
+            </if>
+            <if test="isPublic != null">
+                is_public,
+            </if>
+            <if test="examUsual != null">
+                exam_usual,
+            </if>
+            <if test="examFinal != null">
+                exam_final,
+            </if>
+        </trim>
+    </sql>
+    <sql id="selective_insert_value_column">
+        <if test="orgCode != null">
+            #{orgCode,jdbcType=VARCHAR},
+        </if>
+        <if test="courseId != null">
+            #{courseId,jdbcType=VARCHAR},
+        </if>
+        <if test="title != null">
+            #{title,jdbcType=VARCHAR},
+        </if>
+        <if test="thumbnail != null">
+            #{thumbnail,jdbcType=VARCHAR},
+        </if>
+        <if test="userCount != null">
+            #{userCount,jdbcType=INTEGER},
+        </if>
+        <if test="teacherId != null">
+            #{teacherId,jdbcType=VARCHAR},
+        </if>
+        <if test="description != null">
+            #{description,jdbcType=VARCHAR},
+        </if>
+        <if test="score != null">
+            #{score,jdbcType=TINYINT},
+        </if>
+        <if test="startTime != null">
+            #{startTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="endTime != null">
+            #{endTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="tags != null">
+            #{tags,jdbcType=CHAR},
+        </if>
+        <if test="isPublic != null">
+            #{isPublic,jdbcType=BIT},
+        </if>
+        <if test="examUsual != null">
+            #{examUsual,jdbcType=SMALLINT},
+        </if>
+        <if test="examFinal != null">
+            #{examFinal,jdbcType=SMALLINT},
+        </if>
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+        parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List" />
+        from edu_course
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    
+    <select id="selectCourseCourseUser" resultType="java.lang.Integer" >
+        select count(*) 
+        from edu_course
+        where course_id = #{courseId,jdbcType=VARCHAR}
+    </select>
+    
+    <select id="selectCourseBaseByCourseId" resultMap="BaseResultMap" >
+        select 
+            id, org_code, course_id, title, thumbnail, user_count,
+            teacher_id,
+            description, score,
+            start_time, end_time, tags, is_public,
+            exam_usual, exam_final
+        from edu_course
+        where course_id = #{courseId,jdbcType=VARCHAR}
+    </select>
+    
+    <select id="listCourseSelective" resultMap="BaseResultMap"
+        parameterType="com.yunzhi.edu.entity.Course">
+        select 
+            id, org_code, course_id, title, thumbnail, user_count,
+            teacher_id,
+            description, score,
+            start_time, end_time, tags, is_public,
+            exam_usual, exam_final
+         from edu_course
+        <where>
+            <if test="orgCode != null">
+               AND org_code = #{orgCode,jdbcType=VARCHAR}
+            </if>
+            <if test="courseId != null">
+               AND course_id = #{courseId,jdbcType=VARCHAR}
+            </if>
+            <if test="title != null">
+               AND title = #{title,jdbcType=VARCHAR}
+            </if>
+            <if test="teacherId != null">
+               AND teacher_id = #{teacherId,jdbcType=VARCHAR}
+            </if>
+            <if test="score != null">
+               AND score = #{score,jdbcType=TINYINT}
+            </if>
+            <if test="tags != null">
+               AND tags = #{tags,jdbcType=CHAR}
+            </if>
+            <if test="isPublic != null">
+               AND is_public = #{isPublic,jdbcType=BIT}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from
+        edu_course
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.yunzhi.edu.entity.Course">
+        insert into edu_course (id,
+        org_code, course_id,
+        title, thumbnail, user_count,
+        teacher_id,
+        description, score,
+        start_time, end_time, tags,
+        is_public, exam_usual,
+        exam_final)
+        values (#{id,jdbcType=BIGINT}, #{orgCode,jdbcType=VARCHAR},
+        #{courseId,jdbcType=VARCHAR},
+        #{title,jdbcType=VARCHAR},
+        #{thumbnail,jdbcType=VARCHAR}, #{userCount,jdbcType=INTEGER},
+        #{teacherId,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
+        #{score,jdbcType=TINYINT},
+        #{startTime,jdbcType=TIMESTAMP},
+        #{endTime,jdbcType=TIMESTAMP}, #{tags,jdbcType=CHAR},
+        #{isPublic,jdbcType=BIT}, #{examUsual,jdbcType=SMALLINT},
+        #{examFinal,jdbcType=SMALLINT})
+    </insert>
+    <insert id="insertSelective" parameterType="com.yunzhi.edu.entity.Course">
+        <include refid="selective_insert_column" />
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <include refid="selective_insert_value_column" />
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.yunzhi.edu.entity.Course">
+        update edu_course
+        <set>e
+            <if test="orgCode != null">
+                org_code = #{orgCode,jdbcType=VARCHAR},
+            </if>
+            <if test="courseId != null">
+                course_id = #{courseId,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="thumbnail != null">
+                thumbnail = #{thumbnail,jdbcType=VARCHAR},
+            </if>
+            <if test="userCount != null">
+                user_count = #{userCount,jdbcType=INTEGER},
+            </if>
+            <if test="teacherId != null">
+                teacher_id = #{teacherId,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="score != null">
+                score = #{score,jdbcType=TINYINT},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="tags != null">
+                tags = #{tags,jdbcType=CHAR},
+            </if>
+            <if test="isPublic != null">
+                is_public = #{isPublic,jdbcType=BIT},
+            </if>
+            <if test="examUsual != null">
+                exam_usual = #{examUsual,jdbcType=SMALLINT},
+            </if>
+            <if test="examFinal != null">
+                exam_final = #{examFinal,jdbcType=SMALLINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.yunzhi.edu.entity.Course">
+        update edu_course
+        set org_code = #{orgCode,jdbcType=VARCHAR},
+        course_id =
+        #{courseId,jdbcType=VARCHAR},
+        title = #{title,jdbcType=VARCHAR},
+        thumbnail = #{thumbnail,jdbcType=VARCHAR},
+        user_count =
+        #{userCount,jdbcType=INTEGER},
+        teacher_id =
+        #{teacherId,jdbcType=VARCHAR},
+        description =
+        #{description,jdbcType=VARCHAR},
+        score = #{score,jdbcType=TINYINT},
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+        end_time =
+        #{endTime,jdbcType=TIMESTAMP},
+        tags = #{tags,jdbcType=CHAR},
+        is_public =
+        #{isPublic,jdbcType=BIT},
+        exam_usual = #{examUsual,jdbcType=SMALLINT},
+        exam_final = #{examFinal,jdbcType=SMALLINT}
+        where id =
+        #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

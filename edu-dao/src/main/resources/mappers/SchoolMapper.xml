@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunzhi.edu.dao.SchoolMapper" >
+  <resultMap id="BaseResultMap" type="com.yunzhi.edu.entity.School" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="org_code" property="orgCode" jdbcType="VARCHAR" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="org_img" property="orgImg" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="authorization" property="authorization" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.yunzhi.edu.entity.SchoolWithBLOBs" extends="BaseResultMap" >
+    <result column="news" property="news" jdbcType="LONGVARCHAR" />
+    <result column="banner" property="banner" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, org_code, org_name, org_img, description, authorization, type
+  </sql>
+  <sql id="Blob_Column_List" >
+    news, banner
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from school
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="getSchoolWithBLOBs" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from school
+    where org_Code = #{orgCode, jdbcType=VARCHAR}
+  </select>
+  
+  <select id="listAllSchoolBase"  resultMap="BaseResultMap">
+    select id, org_code, org_name, org_img, description, type
+    from school
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from school
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yunzhi.edu.entity.SchoolWithBLOBs" >
+    insert into school (id, org_code, org_name, 
+      org_img, description, authorization, 
+      news, banner)
+    values (#{id,jdbcType=BIGINT}, #{orgCode,jdbcType=VARCHAR}, #{orgName,jdbcType=VARCHAR}, 
+      #{orgImg,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{authorization,jdbcType=TINYINT}, 
+      #{type,jdbcType=TINYINT}，
+      #{news,jdbcType=LONGVARCHAR}, #{banner,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunzhi.edu.entity.SchoolWithBLOBs" >
+    insert into school
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orgCode != null" >
+        org_code,
+      </if>
+      <if test="orgName != null" >
+        org_name,
+      </if>
+      <if test="orgImg != null" >
+        org_img,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="authorization != null" >
+        authorization,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="news != null" >
+        news,
+      </if>
+      <if test="banner != null" >
+        banner,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orgCode != null" >
+        #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null" >
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgImg != null" >
+        #{orgImg,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="authorization != null" >
+        #{authorization,jdbcType=TINYINT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="news != null" >
+        #{news,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="banner != null" >
+        #{banner,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="listAllSchool" resultMap="ResultMapWithBLOBs">
+    select * from school
+  </select>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunzhi.edu.entity.SchoolWithBLOBs" >
+    update school
+    <set >
+      <if test="orgCode != null" >
+        org_code = #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null" >
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgImg != null" >
+        org_img = #{orgImg,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="authorization != null" >
+        authorization = #{authorization,jdbcType=TINYINT},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="news != null" >
+        news = #{news,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="banner != null" >
+        banner = #{banner,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yunzhi.edu.entity.SchoolWithBLOBs" >
+    update school
+    set org_code = #{orgCode,jdbcType=VARCHAR},
+      org_name = #{orgName,jdbcType=VARCHAR},
+      org_img = #{orgImg,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      authorization = #{authorization,jdbcType=TINYINT},
+      type = #{type,jdbcType=TINYINT},
+      news = #{news,jdbcType=LONGVARCHAR},
+      banner = #{banner,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunzhi.edu.entity.School" >
+    update school
+    set org_code = #{orgCode,jdbcType=VARCHAR},
+      org_name = #{orgName,jdbcType=VARCHAR},
+      org_img = #{orgImg,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      authorization = #{authorization,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateAuthorizate">
+    update school
+    set authorization = 1 
+    where org_code = #{orgCode,jdbcType=VARCHAR}
+  </update>
+</mapper>

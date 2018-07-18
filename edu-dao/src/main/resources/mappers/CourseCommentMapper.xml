@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunzhi.edu.dao.CourseCommentMapper" >
+  <resultMap id="BaseResultMap" type="com.yunzhi.edu.entity.CourseComment" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="course_id" property="courseId" jdbcType="VARCHAR" />
+    <result column="rate" property="rate" jdbcType="TINYINT" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="send_from_id" property="sendFromId" jdbcType="VARCHAR" />
+    <result column="send_from_name" property="sendFromName" jdbcType="VARCHAR" />
+    <result column="send_from_avator" property="sendFromAvator" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, course_id, rate, content, send_from_id, send_from_name, send_from_avator, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from edu_course_comment
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="listCourseComment" resultMap="BaseResultMap">
+    select * from edu_course_comment
+    <where>
+      <if test="courseId != null" >
+       and course_id = #{courseId,jdbcType=VARCHAR}
+      </if>
+      <if test="rate != null" >
+        and rate = #{rate,jdbcType=TINYINT}
+      </if>
+      <if test="sendFromId != null" >
+        and send_from_id = #{sendFromId,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null" >
+        and create_time =  #{createTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from edu_course_comment
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yunzhi.edu.entity.CourseComment" >
+    insert into edu_course_comment (id, course_id, rate, 
+      content, send_from_id, send_from_name, 
+      send_from_avator, create_time)
+    values (#{id,jdbcType=BIGINT}, #{courseId,jdbcType=VARCHAR}, #{rate,jdbcType=TINYINT}, 
+      #{content,jdbcType=VARCHAR}, #{sendFromId,jdbcType=VARCHAR}, #{sendFromName,jdbcType=VARCHAR}, 
+      #{sendFromAvator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunzhi.edu.entity.CourseComment" >
+    insert into edu_course_comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="courseId != null" >
+        course_id,
+      </if>
+      <if test="rate != null" >
+        rate,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="sendFromId != null" >
+        send_from_id,
+      </if>
+      <if test="sendFromName != null" >
+        send_from_name,
+      </if>
+      <if test="sendFromAvator != null" >
+        send_from_avator,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="courseId != null" >
+        #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="rate != null" >
+        #{rate,jdbcType=TINYINT},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="sendFromId != null" >
+        #{sendFromId,jdbcType=VARCHAR},
+      </if>
+      <if test="sendFromName != null" >
+        #{sendFromName,jdbcType=VARCHAR},
+      </if>
+      <if test="sendFromAvator != null" >
+        #{sendFromAvator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunzhi.edu.entity.CourseComment" >
+    update edu_course_comment
+    <set >
+      <if test="courseId != null" >
+        course_id = #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="rate != null" >
+        rate = #{rate,jdbcType=TINYINT},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="sendFromId != null" >
+        send_from_id = #{sendFromId,jdbcType=VARCHAR},
+      </if>
+      <if test="sendFromName != null" >
+        send_from_name = #{sendFromName,jdbcType=VARCHAR},
+      </if>
+      <if test="sendFromAvator != null" >
+        send_from_avator = #{sendFromAvator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunzhi.edu.entity.CourseComment" >
+    update edu_course_comment
+    set course_id = #{courseId,jdbcType=VARCHAR},
+      rate = #{rate,jdbcType=TINYINT},
+      content = #{content,jdbcType=VARCHAR},
+      send_from_id = #{sendFromId,jdbcType=VARCHAR},
+      send_from_name = #{sendFromName,jdbcType=VARCHAR},
+      send_from_avator = #{sendFromAvator,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

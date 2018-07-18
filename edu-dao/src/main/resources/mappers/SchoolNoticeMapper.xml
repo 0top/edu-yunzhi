@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunzhi.edu.dao.SchoolNoticeMapper">
+	<resultMap id="BaseResultMap" type="com.yunzhi.edu.entity.SchoolNotice">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="org_code" property="orgCode" jdbcType="VARCHAR" />
+		<result column="send_from_id" property="sendFromId" jdbcType="VARCHAR" />
+		<result column="send_from_name" property="sendFromName"
+			jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="accept_to" property="acceptTo" jdbcType="VARCHAR" />
+		<result column="is_read" property="isRead" jdbcType="BIT" />
+		<result column="type" property="type" jdbcType="TINYINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, org_code ,send_from_id, send_from_name, content,create_time, accept_to,
+		is_read, type
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from school_notice
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<select id="listSchoolNotice" resultMap="BaseResultMap">
+		select * from school_notice
+		<where>
+			<if test="id != null">
+				id = #{id,jdbcType=BIGINT}
+			</if>
+			<if test="sendFromId != null">
+				send_from_id = #{sendFromId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="acceptTo != null">
+				accept_to = #{acceptTo,jdbcType=VARCHAR},
+			</if>
+			<if test="isRead != null">
+				is_read = #{isRead,jdbcType=BIT},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=TINYINT},
+			</if>
+		</where>
+	</select>
+
+    <!-- 发送方查看通知 -->
+    <select id="listSchoolNoticeBySend" resultMap="BaseResultMap">
+        select org_code, send_from_id, content is_read, type
+        where
+            org_code = #{orgCode} and send_from_id = #{sendFrom} and type=#{type}
+        group by content, is_read
+    </select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from school_notice
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.yunzhi.edu.entity.SchoolNotice">
+		insert into school_notice (id, org_code,send_from_id, send_from_name,
+		content, create_time, accept_to, is_read,
+		type)
+		values (#{id,jdbcType=BIGINT}, #{orgCode,
+		jdbcType=VARCHAR},#{sendFromId,jdbcType=VARCHAR},
+		#{sendFromName,jdbcType=VARCHAR},#{content, jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP}, #{acceptTo,jdbcType=VARCHAR}, #{isRead,jdbcType=BIT},
+		#{type,jdbcType=TINYINT})
+	</insert>
+	<insert id="insertSelective" parameterType="com.yunzhi.edu.entity.SchoolNotice">
+		insert into school_notice
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="orgCode != null">
+				org_code,
+			</if>
+			<if test="sendFromId != null">
+				send_from_id,
+			</if>
+			<if test="sendFromName != null">
+				send_from_name,
+			</if>
+			<if test="content != null">
+			     content,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="acceptTo != null">
+				accept_to,
+			</if>
+			<if test="isRead != null">
+				is_read,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="orgCode != null">
+				#{orgCode,jdbcType=VARCHAR},
+			</if>
+			<if test="sendFromId != null">
+				#{sendFromId,jdbcType=VARCHAR},
+			</if>
+			<if test="sendFromName != null">
+				#{sendFromName,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+			 #{content, jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="acceptTo != null">
+				#{acceptTo,jdbcType=VARCHAR},
+			</if>
+			<if test="isRead != null">
+				#{isRead,jdbcType=BIT},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=TINYINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yunzhi.edu.entity.SchoolNotice">
+		update school_notice
+		<set>
+			<if test="sendFromId != null">
+				send_from_id = #{sendFromId,jdbcType=VARCHAR},
+			</if>
+			<if test="sendFromName != null">
+				send_from_name = #{sendFromName,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+			     content = #{content, jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="acceptTo != null">
+				accept_to = #{acceptTo,jdbcType=VARCHAR},
+			</if>
+			<if test="isRead != null">
+				is_read = #{isRead,jdbcType=BIT},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=TINYINT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yunzhi.edu.entity.SchoolNotice">
+		update school_notice
+		set send_from_id = #{sendFromId,jdbcType=VARCHAR},
+		send_from_name = #{sendFromName,jdbcType=VARCHAR},
+		content = #{content, jdbcType=VARCHAR},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		accept_to = #{acceptTo,jdbcType=VARCHAR},
+		is_read = #{isRead,jdbcType=BIT},
+		type = #{type,jdbcType=TINYINT}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>

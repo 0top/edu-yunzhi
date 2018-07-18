@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunzhi.edu.dao.SchoolSensitiveWordMapper" >
+  <resultMap id="BaseResultMap" type="com.yunzhi.edu.entity.SchoolSensitiveWord" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="org_code" property="orgCode" jdbcType="VARCHAR" />
+    <result column="sensitive_word" property="sensitiveWord" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, org_code, sensitive_word
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from school_sensitive_word
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from school_sensitive_word
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yunzhi.edu.entity.SchoolSensitiveWord" >
+    insert into school_sensitive_word (id, org_code, sensitive_word
+      )
+    values (#{id,jdbcType=BIGINT}, #{orgCode,jdbcType=VARCHAR}, #{sensitiveWord,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunzhi.edu.entity.SchoolSensitiveWord" >
+    insert into school_sensitive_word
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orgCode != null" >
+        org_code,
+      </if>
+      <if test="sensitiveWord != null" >
+        sensitive_word,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orgCode != null" >
+        #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sensitiveWord != null" >
+        #{sensitiveWord,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunzhi.edu.entity.SchoolSensitiveWord" >
+    update school_sensitive_word
+    <set >
+      <if test="orgCode != null" >
+        org_code = #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sensitiveWord != null" >
+        sensitive_word = #{sensitiveWord,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunzhi.edu.entity.SchoolSensitiveWord" >
+    update school_sensitive_word
+    set org_code = #{orgCode,jdbcType=VARCHAR},
+      sensitive_word = #{sensitiveWord,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

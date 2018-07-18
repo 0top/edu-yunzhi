@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunzhi.edu.dao.CourseFileMapper" >
+  <resultMap id="BaseResultMap" type="com.yunzhi.edu.entity.CourseFile" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="course_id" property="courseId" jdbcType="VARCHAR" />
+    <result column="media_id" property="mediaId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="file_name" property="fileName" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="media_url" property="mediaUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, course_id, media_id, create_time, file_name, description, media_url
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from edu_course_file
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="listCourseFile"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" /> 
+    from edu_course_file
+    where course_id = #{courseId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from edu_course_file
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yunzhi.edu.entity.CourseFile" >
+    insert into edu_course_file (id, course_id, media_id, 
+      create_time, file_name, description, 
+      media_url)
+    values (#{id,jdbcType=BIGINT}, #{courseId,jdbcType=VARCHAR}, #{mediaId,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{fileName,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{mediaUrl,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.yunzhi.edu.entity.CourseFile" >
+    insert into edu_course_file
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="courseId != null" >
+        course_id,
+      </if>
+      <if test="mediaId != null" >
+        media_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="fileName != null" >
+        file_name,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="mediaUrl != null" >
+        media_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="courseId != null" >
+        #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="mediaId != null" >
+        #{mediaId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileName != null" >
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="mediaUrl != null" >
+        #{mediaUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunzhi.edu.entity.CourseFile" >
+    update edu_course_file
+    <set >
+      <if test="courseId != null" >
+        course_id = #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="mediaId != null" >
+        media_id = #{mediaId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileName != null" >
+        file_name = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="mediaUrl != null" >
+        media_url = #{mediaUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunzhi.edu.entity.CourseFile" >
+    update edu_course_file
+    set course_id = #{courseId,jdbcType=VARCHAR},
+      media_id = #{mediaId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      file_name = #{fileName,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      media_url = #{mediaUrl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

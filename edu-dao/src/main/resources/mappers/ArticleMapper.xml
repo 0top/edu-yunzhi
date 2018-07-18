@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunzhi.edu.dao.ArticleMapper" >
+  <resultMap id="BaseResultMap" type="com.yunzhi.edu.entity.Article" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="org_code" property="orgCode" jdbcType="VARCHAR" />
+    <result column="staff_num" property="staffNum" jdbcType="VARCHAR" />
+    <result column="article_id" property="articleId" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="share_num" property="shareNum" jdbcType="INTEGER" />
+    <result column="comment_count" property="commentCount" jdbcType="INTEGER" />
+    <result column="upvote" property="upvote" jdbcType="INTEGER" />
+    <result column="is_lock" property="isLock" jdbcType="BIT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.yunzhi.edu.entity.Article" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, org_code, staff_num,article_id, title, author, create_time, share_num, comment_count, 
+    upvote, is_lock
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from edu_article
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="listArticle" resultMap="ResultMapWithBLOBs">
+    select * from edu_article
+    <where>
+        <if test="orgCode != null">
+            org_code = #{orgCode,jdbcType=VARCHAR}
+        </if>
+        <if test="author != null">
+          and  author = #{author,jdbcType=VARCHAR}
+        </if>
+        <if test="isLock != null">
+           and is_lock = #{isLock,jdbcType=BIT}
+        </if>
+    </where> 
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from edu_article
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteArticle">
+    delete from edu_article
+    where article_id = #{articleId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.yunzhi.edu.entity.Article" >
+    insert into edu_article (id, org_code,staff_num, article_id, 
+      title, author, create_time, 
+      share_num, comment_count, upvote, 
+      is_lock, content)
+    values (#{id,jdbcType=BIGINT}, #{orgCode,jdbcType=VARCHAR}, #{staffNum, jdbcType=VARCHAR},#{articleId,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{shareNum,jdbcType=INTEGER}, #{commentCount,jdbcType=INTEGER}, #{upvote,jdbcType=INTEGER}, 
+      #{isLock,jdbcType=BIT}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunzhi.edu.entity.Article" >
+    insert into edu_article
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orgCode != null" >
+        org_code,
+      </if>
+      <if test="staffNum != null">
+        staff_num,
+      </if>
+      <if test="articleId != null" >
+        article_id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="shareNum != null" >
+        share_num,
+      </if>
+      <if test="commentCount != null" >
+        comment_count,
+      </if>
+      <if test="upvote != null" >
+        upvote,
+      </if>
+      <if test="isLock != null" >
+        is_lock,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orgCode != null" >
+        #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffNum != null">
+        #{staffNum ,jdbcType=VARCHAR},
+      </if>
+      <if test="articleId != null" >
+        #{articleId,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shareNum != null" >
+        #{shareNum,jdbcType=INTEGER},
+      </if>
+      <if test="commentCount != null" >
+        #{commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="upvote != null" >
+        #{upvote,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunzhi.edu.entity.Article" >
+    update edu_article
+    <set >
+      <if test="orgCode != null" >
+        org_code = #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="articleId != null" >
+        article_id = #{articleId,jdbcType=VARCHAR},
+      </if>
+      <if test="articleName != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shareNum != null" >
+        share_num = #{shareNum,jdbcType=INTEGER},
+      </if>
+      <if test="commentCount != null" >
+        comment_count = #{commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="upvote != null" >
+        upvote = #{upvote,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yunzhi.edu.entity.Article" >
+    update edu_article
+    set org_code = #{orgCode,jdbcType=VARCHAR},
+    staff_num = #{staffNum, jdbcType=VARCHAR},
+      article_id = #{articleId,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      share_num = #{shareNum,jdbcType=INTEGER},
+      comment_count = #{commentCount,jdbcType=INTEGER},
+      upvote = #{upvote,jdbcType=INTEGER},
+      is_lock = #{isLock,jdbcType=BIT},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunzhi.edu.entity.Article" >
+    update edu_article
+    set org_code = #{orgCode,jdbcType=VARCHAR},
+     staff_num = #{staffNum, jdbcType=VARCHAR},
+      article_id = #{articleId,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      share_num = #{shareNum,jdbcType=INTEGER},
+      comment_count = #{commentCount,jdbcType=INTEGER},
+      upvote = #{upvote,jdbcType=INTEGER},
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="lockArticle">
+    update edu_article
+    set is_lock = 1
+    where article_id = #{articleId}
+  </update>
+  
+  <update id="unlockArticle">
+    update edu_article
+    set is_lock = 0
+    where article_id = #{articleId}
+  </update>
+</mapper>

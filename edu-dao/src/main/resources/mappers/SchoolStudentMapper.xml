@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunzhi.edu.dao.SchoolStudentMapper">
+	<resultMap id="BaseResultMap" type="com.yunzhi.edu.entity.SchoolStudent">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="org_code" property="orgCode" jdbcType="VARCHAR" />
+		<result column="real_name" property="realName" jdbcType="VARCHAR" />
+		<result column="staff_num" property="staffNum" jdbcType="VARCHAR" />
+		<result column="class_id" property="classId" jdbcType="VARCHAR" />
+		<result column="department_id" property="departmentId"
+			jdbcType="VARCHAR" />
+		<result column="start_time" property="startTime" jdbcType="VARCHAR" />
+		<result column="end_time" property="endTime" jdbcType="VARCHAR" />
+		<result column="is_activate" property="isActivate" jdbcType="TINYINT" />
+		<result column="sex" property="sex" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, org_code, real_name, staff_num, class_id,
+		department_id, start_time,
+		end_time,
+		is_activate, sex
+	</sql>
+	<sql id="selective_insert_column">
+		insert into school_student
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="orgCode != null">
+				org_code,
+			</if>
+			<if test="realName != null">
+				real_name,
+			</if>
+			<if test="staffNum != null">
+				staff_num,
+			</if>
+			<if test="classId != null">
+				class_id,
+			</if>
+			<if test="departmentId != null">
+				department_id,
+			</if>
+			<if test="starttime != null">
+				start_time,
+			</if>
+			<if test="endtime != null">
+				end_time,
+			</if>
+			<if test="isActivate != null">
+				is_activate,
+			</if>
+			<if test="sex != null">
+				sex,
+			</if>
+		</trim>
+	</sql>
+
+	<sql id="selective_insert_value_column">
+		<if test="id != null">
+			#{id,jdbcType=BIGINT},
+		</if>
+		<if test="orgCode != null">
+			#{orgCode,jdbcType=VARCHAR},
+		</if>
+		<if test="realName != null">
+			#{realName,jdbcType=VARCHAR},
+		</if>
+		<if test="staffNum != null">
+			#{staffNum,jdbcType=VARCHAR},
+		</if>
+		<if test="classId != null">
+			#{classId,jdbcType=VARCHAR},
+		</if>
+		<if test="departmentId != null">
+			#{departmentId,jdbcType=VARCHAR},
+		</if>
+		<if test="starttime != null">
+			#{startTime,jdbcType=VARCHAR},
+		</if>
+		<if test="endtime != null">
+			#{endTime,jdbcType=VARCHAR},
+		</if>
+		<if test="isActivate != null">
+			#{isActivate,jdbcType=TINYINT},
+		</if>
+		<if test="sex != null">
+			#{sex,jdbcType=VARCHAR},
+		</if>
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from school_student
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	
+	<select id="selectStudentSelectvie" resultMap="BaseResultMap">
+	   select * from school_student
+	   <where>
+	       <if test="orgCode != null">
+                org_code = #{orgCode,jdbcType=VARCHAR}
+            </if>
+            <if test="realName != null">
+                and real_name = #{realName,jdbcType=VARCHAR}
+            </if>
+            <if test="staffNum != null">
+                and staff_num = #{staffNum,jdbcType=VARCHAR}
+            </if>
+            <if test="isActivate != null">
+                and is_activate = #{isActivate,jdbcType=TINYINT}
+            </if>
+            <if test="sex != null">
+                and sex = #{sex,jdbcType=VARCHAR}
+            </if>
+	   </where>
+	</select>
+	<select id="listStudentSelective" resultMap="BaseResultMap">
+		select * from school_student
+		<where>
+			<if test="orgCode != null">
+				org_code = #{orgCode,jdbcType=VARCHAR}
+			</if>
+			<if test="realName != null">
+				and real_name = #{realName,jdbcType=VARCHAR}
+			</if>
+			<if test="staffNum != null">
+				and staff_num = #{staffNum,jdbcType=VARCHAR}
+			</if>
+			<if test="classId != null">
+				and class_id = #{classId,jdbcType=VARCHAR}
+			</if>
+			<if test="departmentId != null">
+				and department_id = #{departmentId,jdbcType=VARCHAR}
+			</if>
+			<if test="starttime != null">
+				and start_time = #{startTime,jdbcType=VARCHAR}
+			</if>
+			<if test="endtime != null">
+				and end_time = #{endTime,jdbcType=VARCHAR}
+			</if>
+			<if test="isActivate != null">
+				and is_activate = #{isActivate,jdbcType=TINYINT}
+			</if>
+			<if test="sex != null">
+				and sex = #{sex,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		school_student
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.yunzhi.edu.entity.SchoolStudent">
+		insert into school_student
+		(id, org_code, real_name,
+		staff_num, class_id, department_id,
+		start_time, end_time, is_activate,
+		sex)
+		values (#{id,jdbcType=BIGINT},
+		#{orgCode,jdbcType=VARCHAR},
+		#{realName,jdbcType=VARCHAR},
+		#{staffNum,jdbcType=VARCHAR}, #{classId,jdbcType=VARCHAR},
+		#{departmentId,jdbcType=VARCHAR},
+		#{startTime,jdbcType=VARCHAR},
+		#{endTime,jdbcType=VARCHAR},
+		#{isActivate,jdbcType=TINYINT},
+		#{sex,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.yunzhi.edu.entity.SchoolStudent">
+		<include refid="selective_insert_column" />
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<include refid="selective_insert_value_column" />
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.yunzhi.edu.entity.SchoolStudent">
+		update school_student
+		<set>
+			<if test="realName != null">
+				real_name = #{realName,jdbcType=VARCHAR},
+			</if>
+			<if test="staffNum != null">
+				staff_num = #{staffNum,jdbcType=VARCHAR},
+			</if>
+			<if test="classId != null">
+				class_id = #{classId,jdbcType=VARCHAR},
+			</if>
+			<if test="departmentId != null">
+				department_id = #{departmentId,jdbcType=VARCHAR},
+			</if>
+			<if test="starttime != null">
+				start_time = #{startTime,jdbcType=VARCHAR},
+			</if>
+			<if test="endtime != null">
+				end_time = #{endTime,jdbcType=VARCHAR},
+			</if>
+			<if test="isActivate != null">
+				is_activate = #{isActivate,jdbcType=TINYINT},
+			</if>
+			<if test="sex != null">
+				sex = #{sex,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<where>
+		      <if test="id != null">
+		          id = #{id,jdbcType=BIGINT}
+		      </if>
+		      <if test="orgCode != null">
+                org_code = #{orgCode,jdbcType=VARCHAR}
+                </if>
+		</where>
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yunzhi.edu.entity.SchoolStudent">
+		update
+		school_student
+		set org_code = #{orgCode,jdbcType=VARCHAR},
+		real_name =
+		#{realName,jdbcType=VARCHAR},
+		staff_num = #{staffNum,jdbcType=VARCHAR},
+		class_id = #{classId,jdbcType=VARCHAR},
+		department_id =
+		#{departmentId,jdbcType=VARCHAR},
+		start_time = #{startTime,jdbcType=VARCHAR},
+		end_time = #{endTime,jdbcType=VARCHAR},
+		is_activate = #{isActivate,jdbcType=TINYINT},
+		sex = #{sex,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<update id="activateUser" >
+	   update
+	   school_student
+	   set is_activate = 1
+	   where org_code = #{orgCode,jdbcType=VARCHAR} 
+	       and staff_num = #{staffNum,jdbcType=VARCHAR}
+	       and real_name = #{realName,jdbcType=VARCHAR}
+	</update>
+</mapper>

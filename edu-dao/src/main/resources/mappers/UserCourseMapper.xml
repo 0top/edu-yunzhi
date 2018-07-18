@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunzhi.edu.dao.UserCourseMapper" >
+  <resultMap id="BaseResultMap" type="com.yunzhi.edu.entity.UserCourse" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="course_id" property="courseId" jdbcType="VARCHAR" />
+    <result column="thumbnail" property="thumbnail" jdbcType="VARCHAR"/>
+    <result column="engage_percent" property="engagePercent" jdbcType="DECIMAL" />
+    <result column="exam_percent" property="examPercent" jdbcType="DECIMAL" />
+    <result column="last_modify" property="lastModify"  jdbcType="TIMESTAMP"/>
+    <result column="detail" property="detail" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, title, course_id, thumbnail, engage_percent, exam_percent, last_modify, detail
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from edu_user_course
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="listUserCourse" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from edu_user_course
+    <where>
+        <if test="userId != null">
+            user_id = #{userId, jdbcType=VARCHAR}
+        </if>
+        <if test="courseId != null">
+            course_id = #{courseId, jdbcType=VARCHAR}
+        </if>
+    </where>
+  </select>
+  <select id="getUserCourse" parameterType="com.yunzhi.edu.entity.UserCourse" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from edu_user_course
+    <where>
+        <if test="id != null">
+            id = #{id, jdbcType=BIGINT}
+        </if>    
+        <if test="userId != null">
+            and user_id = #{userId, jdbcType=VARCHAR}
+        </if>
+        <if test="courseId != null">
+            and  course_id = #{courseId, jdbcType=VARCHAR}
+        </if>
+     </where>
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from edu_user_course
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yunzhi.edu.entity.UserCourse" >
+    insert into edu_user_course (id, user_id, course_id, thumbnail,
+      engage_percent, exam_percent, last_modify,detail
+      )
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, #{courseId,jdbcType=VARCHAR}, #{thumbnail, jdbcType=VARCHAR},
+      #{engagePercent,jdbcType=DECIMAL}, #{examPercent,jdbcType=DECIMAL}, #{lastModify, jdbcType=TIMESTAMP},
+       #{detail,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.yunzhi.edu.entity.UserCourse" >
+     insert into edu_user_course
+      <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="title != null">
+        title,
+       </if>
+      <if test="courseId != null" >
+        course_id,
+      </if>
+      <if test="thumbnail != null">
+        thumbnail,
+      </if>
+      <if test="engagePercent != null" >
+        engage_percent,
+      </if>
+      <if test="examPercent != null" >
+        exam_percent,
+      </if>
+      <if test="lastModify != null">
+        last_modify,
+      </if>
+      <if test="detail != null" >
+        detail,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+       </if>
+      <if test="courseId != null" >
+        #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbnail != null">
+        #{thumbnail, jdbcType=VARCHAR},
+      </if>
+      <if test="engagePercent != null" >
+        #{engagePercent,jdbcType=DECIMAL},
+      </if>
+      <if test="examPercent != null" >
+        #{examPercent,jdbcType=DECIMAL},
+      </if>
+       <if test="lastModify != null">
+        #{lastModify, jdbcType=TIMESTAMP},
+      </if>
+      <if test="detail != null" >
+        #{detail,jdbcType=VARCHAR},
+      </if>
+    </trim> 
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunzhi.edu.entity.UserCourse" >
+    update edu_user_course
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null" >
+        course_id = #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbnail != null">
+        thumbnail = #{thumbnail, jdbcType=VARCHAR},
+      </if>
+      <if test="engagePercent != null" >
+        engage_percent = #{engagePercent,jdbcType=DECIMAL},
+      </if>
+      <if test="examPercent != null" >
+        exam_percent = #{examPercent,jdbcType=DECIMAL},
+      </if>
+       <if test="lastModify != null">
+        last_modify = #{lastModify, jdbcType=TIMESTAMP},
+      </if>
+      <if test="detail != null" >
+        detail = #{detail,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunzhi.edu.entity.UserCourse" >
+    update edu_user_course
+    set user_id = #{userId,jdbcType=VARCHAR},
+      course_id = #{courseId,jdbcType=VARCHAR},
+      thumbnail = #{thumbnail, jdbcType=VARCHAR},
+      engage_percent = #{engagePercent,jdbcType=DECIMAL},
+      exam_percent = #{examPercent,jdbcType=DECIMAL},
+      last_modify = #{lastModify, jdbcType=TIMESTAMP},
+      detail = #{detail,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

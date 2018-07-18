@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunzhi.edu.dao.CourseWareMapper">
+	<resultMap id="BaseResultMap" type="com.yunzhi.edu.entity.CourseWare">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="chapter_id" property="chapterId" jdbcType="VARCHAR" />
+		<result column="courseware_id" property="coursewareId"
+			jdbcType="VARCHAR" />
+		<result column="courseware_name" property="coursewareName"
+			jdbcType="VARCHAR" />
+		<result column="location" property="location" jdbcType="SMALLINT" />
+		<result column="media_url" property="mediaUrl" jdbcType="VARCHAR" />
+		<result column="exercise" property="exercise" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, course_id,chapter_id, courseware_id, courseware_name, location,
+		media_url, exercise
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from edu_course_chapter_courseware
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<select id="listCourseWareList" resultMap="BaseResultMap">
+		select * from edu_course_chapter_courseware 
+		<where>
+			<if test="courseId != null">
+				course_id = #{courseId,jdbcType=VARCHAR}
+			</if>
+			<if test="chapterId != null">
+				and chapter_id = #{chapterId,jdbcType=VARCHAR}
+			</if>
+			<if test="coursewareId != null">
+				and courseware_id = #{coursewareId,jdbcType=VARCHAR}
+			</if>
+			<if test="coursewareName != null">
+				and courseware_name = #{coursewareName,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from edu_course_chapter_courseware
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.yunzhi.edu.entity.CourseWare">
+		insert into edu_course_chapter_courseware (id, course_id, chapter_id,
+		courseware_id,
+		courseware_name, location, media_url,
+		exercise)
+		values (#{id,jdbcType=BIGINT}, #{courseId,jdbcType=VARCHAR},
+		#{chapterId,jdbcType=VARCHAR}, #{coursewareId,jdbcType=VARCHAR},
+		#{coursewareName,jdbcType=VARCHAR}, #{location,jdbcType=SMALLINT},
+		#{mediaUrl,jdbcType=VARCHAR},
+		#{exercise,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.yunzhi.edu.entity.CourseWare">
+		insert into edu_course_chapter_courseware
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="courseId != null">
+				course_id,
+			</if>
+			<if test="chapterId != null">
+				chapter_id,
+			</if>
+			<if test="coursewareId != null">
+				courseware_id,
+			</if>
+			<if test="coursewareName != null">
+				courseware_name,
+			</if>
+			<if test="location != null">
+				location,
+			</if>
+			<if test="mediaUrl != null">
+				media_url,
+			</if>
+			<if test="exercise != null">
+				exercise,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="courseId != null">
+				#{courseId,jdbcType=VARCHAR},
+			</if>
+			<if test="chapterId != null">
+				#{chapterId,jdbcType=VARCHAR},
+			</if>
+			<if test="coursewareId != null">
+				#{coursewareId,jdbcType=VARCHAR},
+			</if>
+			<if test="coursewareName != null">
+				#{coursewareName,jdbcType=VARCHAR},
+			</if>
+			<if test="location != null">
+				#{location,jdbcType=SMALLINT},
+			</if>
+			<if test="mediaUrl != null">
+				#{mediaUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="exercise != null">
+				#{exercise,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yunzhi.edu.entity.CourseWare">
+		update edu_course_chapter_courseware
+		<set>
+			<if test="courseId != null">
+				course_id = #{courseId,jdbcType=VARCHAR},
+			</if>
+			<if test="chapterId != null">
+				chapter_id = #{chapterId,jdbcType=VARCHAR},
+			</if>
+			<if test="coursewareId != null">
+				courseware_id = #{coursewareId,jdbcType=VARCHAR},
+			</if>
+			<if test="coursewareName != null">
+				courseware_name = #{coursewareName,jdbcType=VARCHAR},
+			</if>
+			<if test="location != null">
+				location = #{location,jdbcType=SMALLINT},
+			</if>
+			<if test="mediaUrl != null">
+				media_url = #{mediaUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="exercise != null">
+				exercise = #{exercise,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yunzhi.edu.entity.CourseWare">
+		update edu_course_chapter_courseware
+		set chapter_id = #{chapterId,jdbcType=VARCHAR},
+		courseware_id = #{coursewareId,jdbcType=VARCHAR},
+		courseware_name = #{coursewareName,jdbcType=VARCHAR},
+		location = #{location,jdbcType=SMALLINT},
+		media_url = #{mediaUrl,jdbcType=VARCHAR},
+		exercise = #{exercise,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>
