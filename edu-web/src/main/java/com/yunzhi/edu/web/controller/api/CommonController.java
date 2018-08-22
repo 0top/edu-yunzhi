@@ -15,12 +15,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.yunzhi.edu.core.Upload;
-import com.yunzhi.edu.util.ReMap;
+
 import com.yunzhi.edu.entity.School;
 import com.yunzhi.edu.web.controller.BaseController;
 import com.yunzhi.edu.web.service.ArticleService;
 import com.yunzhi.edu.web.service.CommonService;
 import com.yunzhi.edu.web.service.SchoolService;
+
 
 @Controller
 @RequestMapping(value = "/common")

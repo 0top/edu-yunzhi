@@ -12,9 +12,8 @@ public class Json {
 		Gson gson = new Gson();
 		
 		List<String> json = new ArrayList<String>();
-		json.add("skd");
-		json.add("dskf");
-		json.add("skdf");
+		json.add("json1");
+		json.add("json2");
 		
 		System.out.println(gson.toJson(json));
 	}

@@ -15,7 +15,7 @@ public class Upload {
 	public static String uploadFile(String type,MultipartFile file) throws Exception{
 		
 		String ext = FilenameUtils.getExtension(file.getOriginalFilename());
-	String basepath = "http://www.zerotop.top:8080/resource/img/";
+		String basepath = "http://www.zerotop.top:8080/resource/img/";
 		String url = basepath + System.currentTimeMillis()+"."+ext;	
 		
 		try {

@@ -5,10 +5,10 @@ import java.util.Date;
 
 public class DateForm {
 	
-	public static void formater(){
-//		SimpleDateFormat bartDateFormat = new SimpleDateFormat("EEEE-MMMM-dd-yyyy"); 
-//		Date date = new Date(); 
-//		return bartDateFormat.format(date); 
+	public static String formater(){
+		SimpleDateFormat bartDateFormat = new SimpleDateFormat("EEEE-MMMM-dd-yyyy"); 
+		Date date = new Date(); 
+		return bartDateFormat.format(date); 
 	}
 
 }
